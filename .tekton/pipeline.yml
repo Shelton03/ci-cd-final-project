@@ -46,21 +46,15 @@ spec:
         - name: revision
           value: $(params.branch)
 
-    # 3. Lint with flake8
+    # 3. Lint with flake8 (inline task — no ClusterTask dependency)
     - name: lint
       taskRef:
         name: flake8
-        kind: ClusterTask
       runAfter:
         - clone
       workspaces:
         - name: source
           workspace: output
-      params:
-        - name: image
-          value: "python:3.9-slim"
-        - name: args
-          value: ["--count", "--max-complexity=10", "--max-line-length=127", "--statistics"]
 
     # 4. Run unit tests with nose
     - name: tests
